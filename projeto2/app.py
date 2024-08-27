@@ -1,42 +1,15 @@
-import sqlite3
 
-# conectando...
-conn = sqlite3.connect('clientes.db')
-# definindo um cursor
-cursor = conn.cursor()
+from flask import Flask
+from configuration import configure_all
 
-# criando a tabela (schema)
-cursor.execute("""
-        CREATE TABLE IF NOT EXISTS clientes  (
-        id INTEGER NOT NULL,
-        nome VARCHAR NOT NULL,
-        idade INTEGER,
-        cpf  VARCHAR(11) NOT NULL,
-        email TEXT NOT NULL,
-        senha    VARCHAR(11) NOT NULL,   
-        fone VARCHAR(11)NOT NULL,  
-        cidade TEXT,
-        uf VARCHAR(2) NOT NULL,
-        PRIMARY KEY (id));
-""")
-            
-cursor.execute("""
-        CREATE TABLE IF NOT EXISTS profissionais (
-        id INTEGER NOT NULL,
-        nome VARCHAR NOT NULL,
-        idade INTEGER,
-        cpf  VARCHAR(11) NOT NULL,
-        email TEXT NOT NULL,
-        senha    VARCHAR(11) NOT NULL,   
-        fone VARCHAR(11)NOT NULL,  
-        cidade TEXT,
-        uf VARCHAR(2) NOT NULL,
-        classificação VARCHER NOT NULL,
-        profissão VARCHAR NOT NULL,
-        PRIMARY KEY (id));
+app = Flask(__name__)
 
-""")
 
-print('Tabela de clientes e profissionais criada com sucesso.')
-# desconectando...
-conn.close()
+
+
+app.secret_key = b'\xf1\x88\xa1\xd3\xa4\xb4\x92\x1c\x1b\x8e\xfe\xe3\xd1\xd8\xab\xfe\xad\x87\x11'
+
+configure_all(app)
+
+if __name__ == '__main__':
+    app.run(debug=True)
